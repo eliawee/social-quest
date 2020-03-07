@@ -1,0 +1,47 @@
+{ "frames": [
+   {
+    "filename": "follow_sprite 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 28, "h": 14 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 28, "h": 14 },
+    "sourceSize": { "w": 28, "h": 14 },
+    "duration": 100
+   },
+   {
+    "filename": "follow_sprite 1.aseprite",
+    "frame": { "x": 28, "y": 0, "w": 28, "h": 14 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 28, "h": 14 },
+    "sourceSize": { "w": 28, "h": 14 },
+    "duration": 200
+   },
+   {
+    "filename": "follow_sprite 2.aseprite",
+    "frame": { "x": 56, "y": 0, "w": 28, "h": 14 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 28, "h": 14 },
+    "sourceSize": { "w": 28, "h": 14 },
+    "duration": 200
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.16.3",
+  "image": "follow_sprite.png",
+  "format": "RGBA8888",
+  "size": { "w": 84, "h": 14 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "Push", "from": 1, "to": 2, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
