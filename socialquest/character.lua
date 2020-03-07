@@ -15,7 +15,7 @@ function Character:update(dt)
 end
 
 function Character:draw()
-  self.sprite:draw(240, 80, 0, conf.scale, conf.scale)
+  self.sprite:draw(80, 20)
 end
 
 return Character

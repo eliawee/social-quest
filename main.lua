@@ -1,3 +1,4 @@
+local conf = require("conf")
 local Bank = require("bank")
 local Event = require("event")
 local GameScreen = require("socialquest.screen.game")
@@ -8,6 +9,10 @@ local bank = Bank.save("game", {
   character = {
     image = Bank.Asset.Image("assets/sprites/character/character.png"),
     spec = Bank.Asset.JSON("assets/sprites/character/character.json"),
+  },
+  smartphone = {
+    background = Bank.Asset.Image("assets/images/smartphone_bg.png"),
+    image = Bank.Asset.Image("assets/images/smartphone.png"),
   }
 })
 
@@ -31,5 +36,6 @@ function love.update(dt)
 end
 
 function love.draw()
+  love.graphics.scale(conf.scale, conf.scale)
   navigator:draw()
 end
