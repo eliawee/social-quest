@@ -13,6 +13,9 @@ local bank = Bank.save("game", {
   smartphone = {
     background = Bank.Asset.Image("assets/images/smartphone_bg.png"),
     image = Bank.Asset.Image("assets/images/smartphone.png"),
+  },
+  card = {
+    kiki = Bank.Asset.Image("assets/images/kiki_card.png"),
   }
 })
 
