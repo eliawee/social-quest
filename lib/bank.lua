@@ -130,13 +130,13 @@ function Bank.Asset.restore(jobResult)
   return Bank.Asset[jobResult.typeName](jobResult.path)
 end
 
-Bank.Asset.SpriteSheet = Bank.Asset:extend()
+Bank.Asset.JSON = Bank.Asset:extend()
 
-function Bank.Asset.SpriteSheet:new(path)
-  Bank.Asset.new(self, "SpriteSheet", "string", path)
+function Bank.Asset.JSON:new(path)
+  Bank.Asset.new(self, "JSON", "string", path)
 end
 
-function Bank.Asset.SpriteSheet:load(data)
+function Bank.Asset.JSON:load(data)
   return json.decode(data)
 end
 

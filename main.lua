@@ -4,7 +4,11 @@ local GameScreen = require("socialquest.screen.game")
 local Navigator = require("navigator")
 
 local bank = Bank.save("game", {
-  background = Bank.Asset.Image("assets/images/game_bg.png")
+  background = Bank.Asset.Image("assets/images/game_bg.png"),
+  character = {
+    image = Bank.Asset.Image("assets/sprites/character/character.png"),
+    spec = Bank.Asset.JSON("assets/sprites/character/character.json"),
+  }
 })
 
 local navigator = Navigator({
