@@ -7,7 +7,7 @@ local Character = Object:extend()
 
 function Character:new()
   self.bank = Bank.get("game")
-  self.sprite = peachy.new(self.bank.character.spec, self.bank.character.image, "Idle")
+  self.sprite = peachy.new(self.bank.character.spec, self.bank.character.image, "idle")
 end
 
 function Character:update(dt)
@@ -15,7 +15,7 @@ function Character:update(dt)
 end
 
 function Character:draw()
-  self.sprite:draw(80, 20)
+  self.sprite:draw(60, 20)
 end
 
 return Character
