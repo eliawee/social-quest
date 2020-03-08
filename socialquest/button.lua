@@ -12,13 +12,12 @@ function Button:new(name, smartphone)
 
   self.sprites = {
     idle = peachy.new(bank.button[name].spec, bank.button[name].image, "Idle"),
-    push = peachy.new(bank.button[name].spec, bank.button[name].image, "Push", false),
+    push = peachy.new(bank.button[name].spec, bank.button[name].image, "Push"),
   }
 
   self.sprites.push:onLoop(
     function ()
       self.sprites.push:stop()
-      self.sprites.push:setFrame(1)
       self.sprite = self.sprites.idle
     end
   )
@@ -32,9 +31,13 @@ function Button:new(name, smartphone)
 end
 
 function Button:pushAnimation()
-  self.sprite = self.sprites.push
+  local animation = Animation.Sprite(self.sprites.push)
 
-  local animation = Animation.Sprite(self.sprite)
+  animation.onStart:listenOnce(
+    function ()
+      self.sprite = self.sprites.push
+    end
+  )
 
   return animation
 end

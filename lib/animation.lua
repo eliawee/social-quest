@@ -42,11 +42,16 @@ function Animation:step(dt)
   return true
 end
 
+function Animation:isRunning()
+  return self.running
+end
+
 Animation.Sprite = Animation:extend()
 
 function Animation.Sprite:new(sprite)
   Animation.new(self)
   self.sprite = sprite
+  self.sprite:stop()
 end
 
 function Animation.Sprite:start()
@@ -56,6 +61,11 @@ end
 
 function Animation.Sprite:reset()
   Animation.reset(self)
+  self.sprite:stop()
+end
+
+function Animation.Sprite:stop()
+  Animation.stop(self)
   self.sprite:stop()
 end
 

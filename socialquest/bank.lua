@@ -2,6 +2,7 @@ local Bank = require("bank")
 
 return Bank({
   background = Bank.Asset.Image("assets/images/game_bg.png"),
+  finger = Bank.Asset.Image("assets/images/finger.png"),
   button = {
     follow = {
       image = Bank.Asset.Image("assets/sprites/follow_btn/follow_btn.png"),

@@ -6,7 +6,6 @@ local bank = require("socialquest.bank")
 local input = require("socialquest.input")
 local GameScreen = require("socialquest.screen.game")
 
-
 local navigator = Navigator({
   game = GameScreen
 })

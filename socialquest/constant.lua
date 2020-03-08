@@ -7,6 +7,10 @@ return {
     Wind = 4,
     Plant = 5
   },
+  Finger = {
+    ButtonBottom = 20,
+    ToCenterSpace = 5
+  },
   Smartphone = {
     PatchHeight = 11,
     ToCardSpace = 14,
