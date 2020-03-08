@@ -1,5 +1,6 @@
 return {
   GroundTop = 50,
+  GroundHeight = 3,
   Element = {
     Fire = 1,
     Water = 2,
@@ -22,6 +23,11 @@ return {
     ToLineSpace = 8,
     ToElementSpace = 6,
     ToCardSpace = 6,
+  },
+  TinyCard = {
+    Scale = 1 / 2,
+    InvocationX = 88,
+    InvocationY = 20
   },
   Monster = {
     Left = 100,

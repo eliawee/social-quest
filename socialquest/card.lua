@@ -1,8 +1,8 @@
-local peachy = require("peachy")
+local Animation = require("animation")
 local Object = require("classic")
 
 local bank = require("socialquest.bank")
-local Constant = require("socialquest.constant")
+local Symbol = require("socialquest.symbol")
 
 local Card = Object:extend()
 
@@ -10,55 +10,34 @@ function Card:new(name, element, slot, smartphone)
   self.name = name
   self.element = element
   self.slot = slot
-  self.position = slot.position
-  self.elementSymbolSprite = peachy.new(bank.element.spec, bank.element.image, self:getElementSymbolFramesTag())
-  self.symbolPosition = {
-    x = self.position.x + bank.card[self.name]:getWidth() / 2 - self.elementSymbolSprite:getWidth() / 2,
-    y = (slot.active and smartphone.position.y or self.position.y) - Constant.Card.ToElementSpace - self.elementSymbolSprite:getHeight()
+  self.position = {
+    x = slot.position.x,
+    y = slot.position.y
   }
+
+  self.meta = {
+    opacity = 1
+  }
+
+  self.symbol = Symbol(element, self, smartphone)
 end
 
-function Card:getElementSymbolFramesTag()
-  if self.element == Constant.Element.Fire then
-    return "fire"
-  elseif self.element == Constant.Element.Water then
-    return "water"
-  elseif self.element == Constant.Element.Electricity then
-    return "thunder"
-  elseif self.element == Constant.Element.Wind then
-    return "wind"
-  elseif self.element == Constant.Element.Plant then
-    return "plant"
-  end
+function Card:slideUpAnimation()
+  return Animation.Parallel({
+    Animation.Tween(0.6, self.position, {y = self.position.y - bank.card[self.name]:getHeight()}),
+    Animation.Tween(0.3, self.meta, {opacity = 0})
+  })
+  
 end
 
 function Card:update(dt)
-  self.elementSymbolSprite:update(dt)
+  self.symbol:update(dt)
 end
-
-function Card:drawElementLine()
-  if self.element == Constant.Element.Fire then
-    love.graphics.setColor(223 / 255, 113 / 255, 38 / 255, 1)
-  elseif self.element == Constant.Element.Water then
-    love.graphics.setColor(99 / 255, 155 / 255, 255 / 255, 1)
-  elseif self.element == Constant.Element.Electricity then
-    love.graphics.setColor(251 / 255, 242 / 255, 54 / 255, 1)
-  elseif self.element == Constant.Element.Wind then
-    love.graphics.setColor(1, 1, 1, 1)
-  elseif self.element == Constant.Element.Plant then
-    love.graphics.setColor(153 / 255, 229 / 255, 80 / 255, 1)
-  end
-
-  love.graphics.rectangle("fill", self.position.x, self.position.y + Constant.Card.ToLineSpace, bank.card[self.name]:getWidth() - 1, 1)
-  love.graphics.setColor(1, 1, 1, 1)
-end
-
 
 function Card:draw()
+  love.graphics.setColor(1, 1, 1, self.meta.opacity)
   love.graphics.draw(bank.card[self.name], self.position.x, self.position.y)
-
-  self:drawElementLine()
-  self.elementSymbolSprite:draw(self.symbolPosition.x, self.symbolPosition.y)
+  love.graphics.setColor(1, 1, 1, 1)
 end
 
 return Card

@@ -25,6 +25,14 @@ function List:every(predicate)
   return fun.every(predicate, self.tbl)
 end
 
+function List:find(predicate)
+  for value in self:values() do
+    if predicate(value) then
+      return value
+    end
+  end
+end
+
 function List:add(item)
   table.insert(self.tbl, item)
   return self

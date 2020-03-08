@@ -83,12 +83,22 @@ end
 function Smartphone:initPositions()
   self:initPhonePositions()
   self:initSlotsPositions()
+  self:initPatchesPositions()
+end
 
+function Smartphone:initPatchesPositions()
   self.patch = {
     x = self.backgroundPosition.x,
     y = self.backgroundPosition.y + bank.smartphone.background:getHeight() - Constant.Smartphone.PatchHeight,
     width = bank.smartphone.background:getWidth(),
     height = Constant.Smartphone.PatchHeight
+  }
+
+  self.upPatch = {
+    x = self.position.x,
+    y = Constant.GroundTop + Constant.GroundHeight,
+    width = bank.smartphone.image:getWidth(),
+    height = self.backgroundPosition.y - (Constant.GroundTop + Constant.GroundHeight)
   }
 end
 
@@ -108,8 +118,14 @@ function Smartphone:initCards()
   end
 end
 
-function Smartphone:pushButtonAnimation()
-  return self.button:pushAnimation()
+function Smartphone:activeCard()
+  local activeSlot = self.slots:find(
+    function (slot)
+      return slot.active
+    end
+  )
+
+  return activeSlot and activeSlot.card
 end
 
 function Smartphone:update(dt)
@@ -133,8 +149,16 @@ function Smartphone:draw()
 
   love.graphics.setColor(203 / 255, 219 / 255, 252 / 255, 1)
   love.graphics.rectangle("fill", self.patch.x, self.patch.y, self.patch.width, self.patch.height)
+  love.graphics.setColor(226 / 255, 237 / 255, 252 / 255, 1)
+  love.graphics.rectangle("fill", self.upPatch.x, self.upPatch.y, self.upPatch.width, self.upPatch.height)
   love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(bank.smartphone.image, self.position.x, self.position.y)
+
+  for slot in self.slots:values() do
+    if slot.card then
+      slot.card.symbol:draw()
+    end
+  end
 
   self.button:draw()
 end
