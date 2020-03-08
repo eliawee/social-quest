@@ -1,18 +1,17 @@
 local peachy = require("peachy")
-local Bank = require("bank")
 local Object = require("classic")
 
+local bank = require("socialquest.bank")
 local Constant = require("socialquest.constant")
 
 local Monster = Object:extend()
 
 function Monster:new(props)
-  self.bank = Bank.get("game")
   self.name = props.name
   self.sprites = {
     idle = peachy.new(
-      self.bank.monster[self.name].spec,
-      self.bank.monster[self.name].image,
+      bank.monster[self.name].spec,
+      bank.monster[self.name].image,
       "idle"
     ),
   }

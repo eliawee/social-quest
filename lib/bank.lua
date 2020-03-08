@@ -30,18 +30,6 @@ local Object = require("classic")
 local List = require("list")
 local Bank = Object:extend()
 
-local banks = {}
-
-function Bank.save(name, assetSpec)
-  banks[name] = Bank(assetSpec)
-
-  return banks[name]
-end
-
-function Bank.get(name)
-  return banks[name or Bank.DefaultName]
-end
-
 function Bank:new(assetSpec)
   self.jobs = self:parseJobs(assetSpec):raw()
   self.loadedCount = 0

@@ -1,17 +1,17 @@
 local peachy = require("peachy")
-local Bank = require("bank")
 local Object = require("classic")
+
+local bank = require("socialquest.bank")
 local Constant = require("socialquest.constant")
 
 local Button = Object:extend()
 
 function Button:new(name, smartphone)
-  self.bank = Bank.get("game")
   self.name = name
 
   self.sprites = {
-    idle = peachy.new(self.bank.button[name].spec, self.bank.button[name].image, "Idle"),
-    push = peachy.new(self.bank.button[name].spec, self.bank.button[name].image, "Push"),
+    idle = peachy.new(bank.button[name].spec, bank.button[name].image, "Idle"),
+    push = peachy.new(bank.button[name].spec, bank.button[name].image, "Push"),
   }
 
   self.position = {

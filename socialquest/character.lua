@@ -1,13 +1,12 @@
-local conf = require("conf")
 local peachy = require("peachy")
-local Bank = require("bank")
 local Object = require("classic")
+
+local bank = require("socialquest.bank")
 
 local Character = Object:extend()
 
 function Character:new()
-  self.bank = Bank.get("game")
-  self.sprite = peachy.new(self.bank.character.spec, self.bank.character.image, "idle")
+  self.sprite = peachy.new(bank.character.spec, bank.character.image, "idle")
 end
 
 function Character:update(dt)

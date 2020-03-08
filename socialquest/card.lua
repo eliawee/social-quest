@@ -1,19 +1,19 @@
 local peachy = require("peachy")
-local Bank = require("bank")
 local Object = require("classic")
+
+local bank = require("socialquest.bank")
 local Constant = require("socialquest.constant")
 
 local Card = Object:extend()
 
 function Card:new(name, element, slot, smartphone)
-  self.bank = Bank.get("game")
   self.name = name
   self.element = element
   self.slot = slot
   self.position = slot.position
-  self.elementSymbolSprite = peachy.new(self.bank.element.spec, self.bank.element.image, self:getElementSymbolFramesTag())
+  self.elementSymbolSprite = peachy.new(bank.element.spec, bank.element.image, self:getElementSymbolFramesTag())
   self.symbolPosition = {
-    x = self.position.x + self.bank.card[self.name]:getWidth() / 2 - self.elementSymbolSprite:getWidth() / 2,
+    x = self.position.x + bank.card[self.name]:getWidth() / 2 - self.elementSymbolSprite:getWidth() / 2,
     y = (slot.active and smartphone.position.y or self.position.y) - Constant.Card.ToElementSpace - self.elementSymbolSprite:getHeight()
   }
 end
@@ -49,13 +49,13 @@ function Card:drawElementLine()
     love.graphics.setColor(153 / 255, 229 / 255, 80 / 255, 1)
   end
 
-  love.graphics.rectangle("fill", self.position.x, self.position.y + Constant.Card.ToLineSpace, self.bank.card[self.name]:getWidth() - 1, 1)
+  love.graphics.rectangle("fill", self.position.x, self.position.y + Constant.Card.ToLineSpace, bank.card[self.name]:getWidth() - 1, 1)
   love.graphics.setColor(1, 1, 1, 1)
 end
 
 
 function Card:draw()
-  love.graphics.draw(self.bank.card[self.name], self.position.x, self.position.y)
+  love.graphics.draw(bank.card[self.name], self.position.x, self.position.y)
 
   self:drawElementLine()
   self.elementSymbolSprite:draw(self.symbolPosition.x, self.symbolPosition.y)
