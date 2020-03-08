@@ -28,13 +28,13 @@ function Smartphone:initSlotsPositions()
   self.slots = List({
     {
       position = {
-        x = self.position.x - Constant.Smartphone.PhoneToCardBorder - Constant.Smartphone.CardToCardBorder - 2 * self.bank.card.kiki:getWidth(),
+        x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
     {
       position = {
-        x = self.position.x - Constant.Smartphone.PhoneToCardBorder - self.bank.card.kiki:getWidth(),
+        x = self.position.x - Constant.Smartphone.ToCardSpace - self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
@@ -46,13 +46,13 @@ function Smartphone:initSlotsPositions()
     },
     {
       position = {
-        x = self.position.x + Constant.Smartphone.PhoneToCardBorder + self.bank.card.kiki:getWidth(),
+        x = self.position.x + Constant.Smartphone.ToCardSpace + self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
     {
       position = {
-        x = self.position.x + Constant.Smartphone.PhoneToCardBorder + Constant.Smartphone.CardToCardBorder + 2 * self.bank.card.kiki:getWidth(),
+        x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     }
@@ -72,9 +72,19 @@ function Smartphone:initPositions()
 end
 
 function Smartphone:initCards()
+  local elements = {
+    Constant.Element.Fire,
+    Constant.Element.Water,
+    Constant.Element.Electricity,
+    Constant.Element.Wind,
+    Constant.Element.Plant
+  }
+
   for slot in self.slots:values() do
-    slot.card = Smartphone.Card("kiki", Constant.Element.Fire)
+    slot.card = Smartphone.Card("kiki", elements[1])
     slot.card.position = slot.position
+
+    table.remove(elements, 1)
   end
 end
 
@@ -101,13 +111,27 @@ function Smartphone.Card:new(name, element)
   self.bank = Bank.get("game")
   self.name = name
   self.element = element
-  self.position = {x = 0, y = 0}
 end
 
 function Smartphone.Card:update(dt) end
 
 function Smartphone.Card:draw(position)
   love.graphics.draw(self.bank.card[self.name], self.position.x, self.position.y)
+
+  if self.element == Constant.Element.Fire then
+    love.graphics.setColor(223 / 255, 113 / 255, 38 / 255, 1)
+  elseif self.element == Constant.Element.Water then
+    love.graphics.setColor(99 / 255, 155 / 255, 255 / 255, 1)
+  elseif self.element == Constant.Element.Electricity then
+    love.graphics.setColor(251 / 255, 242 / 255, 54 / 255, 1)
+  elseif self.element == Constant.Element.Wind then
+    love.graphics.setColor(1, 1, 1, 1)
+  elseif self.element == Constant.Element.Plant then
+    love.graphics.setColor(153 / 255, 229 / 255, 80 / 255, 1)
+  end
+
+  love.graphics.rectangle("fill", self.position.x, self.position.y + Constant.Card.ToLineSpace, self.bank.card[self.name]:getWidth() - 1, 1)
+  love.graphics.setColor(1, 1, 1, 1)
 end
 
 
