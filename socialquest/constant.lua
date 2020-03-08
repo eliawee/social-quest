@@ -10,6 +10,7 @@ return {
     PatchHeight = 11,
     ToCardSpace = 14,
     ScreenBottom = 10,
+    ToButtonSpace = 5
   },
   Card = {
     ScreenBottom = 20,

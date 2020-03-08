@@ -2,6 +2,7 @@ local conf = require("conf")
 local Bank = require("bank")
 local List = require("list")
 local Object = require("classic")
+local Button = require("socialquest.button")
 local Card = require("socialquest.card")
 local Constant = require("socialquest.constant")
 
@@ -11,6 +12,15 @@ function Smartphone:new()
   self.bank = Bank.get("game")
   self:initPositions()
   self:initCards()
+  self.button = Button("follow", self)
+end
+
+function Smartphone:getWidth()
+  return self.bank.smartphone.image:getWidth()
+end
+
+function Smartphone:getHeight()
+  return self.bank.smartphone.image:getHeight()
 end
 
 function Smartphone:initPhonePositions()
@@ -28,18 +38,21 @@ end
 function Smartphone:initSlotsPositions()
   self.slots = List({
     {
+      index = 1,
       position = {
         x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
     {
+      index = 2,
       position = {
         x = self.position.x - Constant.Smartphone.ToCardSpace - self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
     {
+      index = 3,
       active = true,
       position = {
         x = self.backgroundPosition.x,
@@ -47,12 +60,14 @@ function Smartphone:initSlotsPositions()
       }
     },
     {
+      index = 4,
       position = {
         x = self.position.x + Constant.Smartphone.ToCardSpace + self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
       }
     },
     {
+      index = 5,
       position = {
         x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * self.bank.card.kiki:getWidth(),
         y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
@@ -95,6 +110,8 @@ function Smartphone:update(dt)
       slot.card:update(dt)
     end
   end
+
+  self.button:update(dt)
 end
 
 function Smartphone:draw()
@@ -110,6 +127,8 @@ function Smartphone:draw()
   love.graphics.rectangle("fill", self.patch.x, self.patch.y, self.patch.width, self.patch.height)
   love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(self.bank.smartphone.image, self.position.x, self.position.y)
+
+  self.button:draw()
 end
 
 return Smartphone

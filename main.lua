@@ -6,6 +6,12 @@ local Navigator = require("navigator")
 
 local bank = Bank.save("game", {
   background = Bank.Asset.Image("assets/images/game_bg.png"),
+  button = {
+    follow = {
+      image = Bank.Asset.Image("assets/sprites/follow_btn/follow_btn.png"),
+      spec = Bank.Asset.JSON("assets/sprites/follow_btn/follow_btn.json"),  
+    }
+  },
   character = {
     image = Bank.Asset.Image("assets/sprites/character/character.png"),
     spec = Bank.Asset.JSON("assets/sprites/character/character.json"),
