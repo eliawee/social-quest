@@ -1,4 +1,5 @@
 return {
+  GroundTop = 50,
   Element = {
     Fire = 1,
     Water = 2,
@@ -18,4 +19,11 @@ return {
     ToElementSpace = 6,
     ToCardSpace = 6,
   },
+  Monster = {
+    Left = 100,
+
+    ZombieChicken = {
+      name = "zombieChicken"
+    }
+  }
 }

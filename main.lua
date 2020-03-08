@@ -1,8 +1,10 @@
 local conf = require("conf")
 local Bank = require("bank")
 local Event = require("event")
-local GameScreen = require("socialquest.screen.game")
 local Navigator = require("navigator")
+
+local Constant = require("socialquest.constant")
+local GameScreen = require("socialquest.screen.game")
 
 local bank = Bank.save("game", {
   background = Bank.Asset.Image("assets/images/game_bg.png"),
@@ -26,6 +28,12 @@ local bank = Bank.save("game", {
   element = {
     image = Bank.Asset.Image("assets/sprites/elements/elements.png"),
     spec = Bank.Asset.JSON("assets/sprites/elements/elements.json"),
+  },
+  monster = {
+    zombieChicken = {
+      image = Bank.Asset.Image("assets/sprites/zombie-chicken/zombie-chicken.png"),
+      spec = Bank.Asset.JSON("assets/sprites/zombie-chicken/zombie-chicken.json"),
+    }
   }
 })
 
