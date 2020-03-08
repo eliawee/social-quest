@@ -40,7 +40,13 @@ function GameScreen:invokeCardAnimation(card)
           self.tinyCard:slideDownAnimation()
         }),
         Animation.Wait(0.1),
-        self.tinyCard:scaleFadeOutAnimation()
+        Animation.Parallel({
+          self.tinyCard:scaleFadeOutAnimation(),
+          Animation.Series({
+            Animation.Wait(0.5),
+            self.monster:hitAnimation()
+          })
+        })
       })
     }),
   })

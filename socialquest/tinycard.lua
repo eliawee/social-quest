@@ -33,8 +33,8 @@ end
 
 function TinyCard:scaleFadeOutAnimation()
   return Animation.Parallel({
-    Animation.Tween(0.3, self.meta, {opacity = 0}),
-    Animation.Tween(0.3, self.meta, {scale = 1}, "inBack")
+    Animation.Tween(0.6, self.meta, {opacity = 0}),
+    Animation.Tween(0.6, self.meta, {scale = 2}, "inBack")
   })
 end
 
