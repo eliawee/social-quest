@@ -11,8 +11,8 @@ function Button:new(name, smartphone)
   self.name = name
 
   self.sprites = {
-    idle = peachy.new(bank.button[name].spec, bank.button[name].image, "Idle"),
-    push = peachy.new(bank.button[name].spec, bank.button[name].image, "Push"),
+    idle = peachy.new(bank.button[name].spec, bank.button[name].image, "idle"),
+    push = peachy.new(bank.button[name].spec, bank.button[name].image, "push"),
   }
 
   self.sprites.push:onLoop(
