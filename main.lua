@@ -16,6 +16,10 @@ local bank = Bank.save("game", {
   },
   card = {
     kiki = Bank.Asset.Image("assets/images/kiki_card.png"),
+  },
+  element = {
+    image = Bank.Asset.Image("assets/sprites/elements/elements.png"),
+    spec = Bank.Asset.JSON("assets/sprites/elements/elements.json"),
   }
 })
 
