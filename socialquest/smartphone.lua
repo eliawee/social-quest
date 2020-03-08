@@ -12,7 +12,7 @@ function Smartphone:new()
   self:initCards()
 end
 
-function Smartphone:initPositions()
+function Smartphone:initPhonePositions()
   self.position = {
     x = (conf.exports.width - self.bank.smartphone.image:getWidth()) / 2,
     y = conf.exports.height - self.bank.smartphone.image:getHeight() - Constant.Smartphone.ScreenBottom,
@@ -22,6 +22,46 @@ function Smartphone:initPositions()
     x = self.position.x + self.bank.smartphone.image:getWidth() / 2 - self.bank.smartphone.background:getWidth() / 2,
     y = self.position.y + self.bank.smartphone.image:getHeight() / 2 - self.bank.smartphone.background:getHeight() / 2,
   }
+end
+
+function Smartphone:initSlotsPositions()
+  self.slots = List({
+    {
+      position = {
+        x = self.position.x - Constant.Smartphone.PhoneToCardBorder - Constant.Smartphone.CardToCardBorder - 2 * self.bank.card.kiki:getWidth(),
+        y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
+      }
+    },
+    {
+      position = {
+        x = self.position.x - Constant.Smartphone.PhoneToCardBorder - self.bank.card.kiki:getWidth(),
+        y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
+      }
+    },
+    {
+      position = {
+        x = self.backgroundPosition.x,
+        y = self.backgroundPosition.y,
+      }
+    },
+    {
+      position = {
+        x = self.position.x + Constant.Smartphone.PhoneToCardBorder + self.bank.card.kiki:getWidth(),
+        y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
+      }
+    },
+    {
+      position = {
+        x = self.position.x + Constant.Smartphone.PhoneToCardBorder + Constant.Smartphone.CardToCardBorder + 2 * self.bank.card.kiki:getWidth(),
+        y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight(),
+      }
+    }
+  })
+end
+
+function Smartphone:initPositions()
+  self:initPhonePositions()
+  self:initSlotsPositions()
 
   self.patch = {
     x = self.backgroundPosition.x,
@@ -32,31 +72,10 @@ function Smartphone:initPositions()
 end
 
 function Smartphone:initCards()
-  self.cards = List.range(1, 5):map(
-    function (index)
-      local card = Smartphone.Card("kiki", Constant.Element.Fire)
-
-      if index == 1 then
-        card.position.x = self.position.x - Constant.Smartphone.PhoneToCardBorder - Constant.Smartphone.CardToCardBorder - 2 * self.bank.card.kiki:getWidth()
-        card.position.y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight()
-      elseif index == 2 then
-        card.position.x = self.position.x - Constant.Smartphone.PhoneToCardBorder - self.bank.card.kiki:getWidth()
-        card.position.y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight()
-      elseif index == 3 then
-        card.position.x = self.backgroundPosition.x
-        card.position.y = self.backgroundPosition.y  
-      elseif index == 4 then
-        card.position.x = self.position.x + Constant.Smartphone.PhoneToCardBorder + self.bank.card.kiki:getWidth()
-        card.position.y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight()
-      elseif index == 5 then
-        card.position.x = self.position.x + Constant.Smartphone.PhoneToCardBorder + Constant.Smartphone.CardToCardBorder + 2 * self.bank.card.kiki:getWidth()
-        card.position.y = conf.exports.height - Constant.Card.ScreenBottom - self.bank.card.kiki:getHeight()
-      end
-
-      return card
-    end
-  ):list()
-
+  for slot in self.slots:values() do
+    slot.card = Smartphone.Card("kiki", Constant.Element.Fire)
+    slot.card.position = slot.position
+  end
 end
 
 function Smartphone:update(dt) end
@@ -64,8 +83,10 @@ function Smartphone:update(dt) end
 function Smartphone:draw()
   love.graphics.draw(self.bank.smartphone.background, self.backgroundPosition.x, self.backgroundPosition.y)
   
-  for card in self.cards:values() do
-    card:draw()
+  for slot in self.slots:values() do
+    if slot.card then
+      slot.card:draw()
+    end
   end
 
   love.graphics.setColor(203 / 255, 219 / 255, 252 / 255, 1)
