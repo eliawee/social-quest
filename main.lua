@@ -3,6 +3,7 @@ local Event = require("event")
 local Navigator = require("navigator")
 
 local bank = require("socialquest.bank")
+local input = require("socialquest.input")
 local GameScreen = require("socialquest.screen.game")
 
 
@@ -16,6 +17,8 @@ function love.load()
 end
 
 function love.update(dt)
+  input:update(dt)
+
   if not bank:isLoaded() and bank:update() then
     navigator:navigate("game")
   else

@@ -15,6 +15,10 @@ function Smartphone:new()
   self.button = Button("follow", self)
 end
 
+function Smartphone:getSlot(index)
+  return self.slots:get(index)
+end
+
 function Smartphone:getWidth()
   return bank.smartphone.image:getWidth()
 end
@@ -102,6 +106,10 @@ function Smartphone:initCards()
 
     table.remove(elements, 1)
   end
+end
+
+function Smartphone:pushButtonAnimation()
+  return self.button:pushAnimation()
 end
 
 function Smartphone:update(dt)

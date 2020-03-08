@@ -1,6 +1,7 @@
 local Navigator = require("navigator")
 
 local bank = require("socialquest.bank")
+local input = require("socialquest.input")
 local Character = require("socialquest.character")
 local Constant = require("socialquest.constant")
 local Monster = require("socialquest.monster")
@@ -14,7 +15,20 @@ function GameScreen:open()
   self.smartphone = Smartphone()
 end
 
+function GameScreen:pressButton()
+  self.animation = self.smartphone:pushButtonAnimation()
+  self.animation:start()
+end
+
 function GameScreen:update(dt)
+  if input:pressed("action") then
+    self:pressButton()
+  end
+
+  if self.animation then
+    self.animation:update(dt)
+  end
+
   self.character:update(dt)
   self.monster:update(dt)
   self.smartphone:update(dt)

@@ -42,6 +42,27 @@ function Animation:step(dt)
   return true
 end
 
+Animation.Sprite = Animation:extend()
+
+function Animation.Sprite:new(sprite)
+  Animation.new(self)
+  self.sprite = sprite
+end
+
+function Animation.Sprite:start()
+  Animation.start(self)
+  self.sprite:play()
+end
+
+function Animation.Sprite:reset()
+  Animation.reset(self)
+  self.sprite:stop()
+end
+
+function Animation.Sprite:step(dt)
+  return self.sprite.paused
+end
+
 Animation.Tween = Animation:extend()
 
 function Animation.Tween:new(duration, obj, target, algo)
