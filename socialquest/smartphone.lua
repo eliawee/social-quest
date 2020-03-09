@@ -139,25 +139,35 @@ function Smartphone:update(dt)
   self.button:update(dt)
 end
 
-function Smartphone:nextCard(card)
+function Smartphone:getSwipeDirection(card)
   if card.slot.index == 1 then
-    return self.slots:get(card.slot.index + 1).card
+    return Constant.Smartphone.Direction.Left
   elseif card.slot.index == self.slots:size() then
-    return self.slots:get(card.slot.index - 1).card
+    return Constant.Smartphone.Direction.Right
   elseif self.slots:get(card.slot.index + 1).card then
-    return self.slots:get(card.slot.index + 1).card
+    return Constant.Smartphone.Direction.Left
   else
-    return self.slots:get(card.slot.index - 1).card
+    return Constant.Smartphone.Direction.Right
   end
+end
+
+function Smartphone:swipeAnimation(slot, direction)
+  local nextSlot = self.slots:get(direction == Constant.Smartphone.Direction.Left and slot.index + 1 or slot.index - 1)
+  local nextCard = nextSlot and nextSlot.card
+
+  return nextCard and Animation.Parallel({
+    nextCard:gotoSlotAnimation(slot),
+    self:swipeAnimation(nextCard.slot, direction)
+  }) or Animation.Wait(0)
 end
 
 function Smartphone:replaceActiveCardAnimation()
   local activeCard = self:activeCard()
-  local nextActiveCard = activeCard and self:nextCard(activeCard)
+  local direction = activeCard and self:getSwipeDirection(activeCard)
 
   return Animation.Parallel({
     activeCard.symbol:fadeOutAnimation(),
-    nextActiveCard and nextActiveCard:gotoSlotAnimation(activeCard.slot) or Animation.Wait(0)
+    direction and self:swipeAnimation(activeCard.slot, direction) or Animation.Wait(0)
   })
 end
 
