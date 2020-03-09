@@ -46,6 +46,10 @@ function GameScreen:invokeCardAnimation(card)
             Animation.Wait(0.5),
             self.monster:hitAnimation()
           })
+        }),
+        Animation.Series({
+          self.smartphone:replaceActiveCardAnimation(),
+          self.smartphone.button:fadeInAnimation(),
         })
       })
     }),

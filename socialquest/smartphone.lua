@@ -1,4 +1,5 @@
 local conf = require("conf")
+local Animation = require("animation")
 local List = require("list")
 local Object = require("classic")
 
@@ -136,6 +137,28 @@ function Smartphone:update(dt)
   end
 
   self.button:update(dt)
+end
+
+function Smartphone:nextCard(card)
+  if card.slot.index == 1 then
+    return self.slots:get(card.slot.index + 1).card
+  elseif card.slot.index == self.slots:size() then
+    return self.slots:get(card.slot.index - 1).card
+  elseif self.slots:get(card.slot.index + 1).card then
+    return self.slots:get(card.slot.index + 1).card
+  else
+    return self.slots:get(card.slot.index - 1).card
+  end
+end
+
+function Smartphone:replaceActiveCardAnimation()
+  local activeCard = self:activeCard()
+  local nextActiveCard = activeCard and self:nextCard(activeCard)
+
+  return Animation.Parallel({
+    activeCard.symbol:fadeOutAnimation(),
+    nextActiveCard and nextActiveCard:gotoSlotAnimation(activeCard.slot) or Animation.Wait(0)
+  })
 end
 
 function Smartphone:draw()

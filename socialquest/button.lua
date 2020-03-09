@@ -34,6 +34,10 @@ function Button:new(name, smartphone)
   self.sprite = self.sprites.idle
 end
 
+function Button:fadeInAnimation()
+  return Animation.Tween(0.3, self.meta, { opacity = 1 })
+end
+
 function Button:fadeOutAnimation()
   return Animation.Tween(0.3, self.meta, { opacity = 0 })
 end
