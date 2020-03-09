@@ -27,10 +27,22 @@ function Card:cloneSlotPosition(slot)
 end
 
 function Card:gotoSlotAnimation(slot)
-  return Animation.Parallel({
+  local gotoAnimation = Animation.Parallel({
     self.symbol:fadeOutAnimation(),
     Animation.Tween(0.3, self.position, self:cloneSlotPosition(slot), "outSine")
   })
+
+  gotoAnimation.onComplete:listenOnce(
+    function ()
+      self.symbol:useSlotPosition(slot)
+    end
+  )
+
+  return Animation.Series({
+    gotoAnimation,
+    self.symbol:fadeInAnimation()
+  })
+  
 end
 
 function Card:slideUpAnimation()

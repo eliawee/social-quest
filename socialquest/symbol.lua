@@ -17,13 +17,22 @@ function Symbol:new(element, card, smartphone)
   }
 
   self.sprite = peachy.new(bank.element.spec, bank.element.image, self:getFramesTag())
-  self.centerPosition = {
-    x = self.card.position.x + bank.card[card.name]:getWidth() / 2,
-    y = (self.card.slot.active and smartphone.position.y or self.card.position.y) - Constant.Card.ToElementSpace - self.sprite:getHeight() / 2
-  }
 
+  self:useSlotPosition(self.card.slot)
   self:computePosition()
 end
+
+function Symbol:useSlotPosition(slot)
+  self.centerPosition = {
+    x = slot.position.x + bank.card[self.card.name]:getWidth() / 2,
+    y = (slot.active and self.smartphone.position.y or slot.position.y) - Constant.Card.ToElementSpace - self.sprite:getHeight() / 2
+  }
+end
+
+function Symbol:fadeInAnimation()
+  return Animation.Tween(0.1, self.meta, {opacity = 1})
+ end
+ 
 
 function Symbol:fadeOutAnimation()
  return Animation.Tween(0.1, self.meta, {opacity = 0})
