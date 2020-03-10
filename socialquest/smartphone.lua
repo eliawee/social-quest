@@ -85,13 +85,22 @@ end
 
 function Smartphone:initSlots(count)
   local activeSlotIndex = self:computeAciveSlotIndex(count)
+  local extraSideSlotsCount = math.ceil(count / 2)
 
-  self.slots = List.range(1, count):map(
+  self.slots = List.range(1, count + 2 * extraSideSlotsCount):map(
     function (index)
+      local realIndex = index - extraSideSlotsCount
+
+      if realIndex < 1 then
+        realIndex = 1
+      elseif realIndex > count then
+        realIndex = count
+      end
+
       return {
-        active = index == activeSlotIndex,
+        active = realIndex == activeSlotIndex,
         index = index,
-        position = self:computeSlotPosition(index, activeSlotIndex)
+        position = self:computeSlotPosition(realIndex, activeSlotIndex)
       }
     end
   ):list()
@@ -136,10 +145,9 @@ function Smartphone:initCards()
 
   self:initSlots(table.getn(elements))
 
-  for slot in self.slots:values() do
-    slot.card = Card("kiki", elements[1], slot, self)
-
-    table.remove(elements, 1)
+  for index, element in pairs(elements) do
+    local slot = self.slots:get(index + math.floor(table.getn(elements) / 2))
+    slot.card = Card("kiki", element, slot, self)
   end
 end
 
