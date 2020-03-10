@@ -130,7 +130,7 @@ end
 function Smartphone:getEmptySlotForSwiping(direction)
   local emptySlot = nil
 
-  for slot in self.slots:values() do
+  for slot in (direction == Constant.Smartphone.Direction.Left and self.slots or self.slots:reverse()):values() do
     if slot.card then
       return emptySlot
     else

@@ -21,6 +21,16 @@ function List:values()
   end
 end
 
+function List:reverse()
+  local tbl = {}
+
+  for index, value in pairs(self.tbl) do
+    table.insert(tbl, 1, value)
+  end
+
+  return List(tbl)
+end
+
 function List:every(predicate)
   return fun.every(predicate, self.tbl)
 end
