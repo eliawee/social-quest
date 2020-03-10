@@ -127,6 +127,33 @@ function Smartphone:initPatchesPositions()
   }
 end
 
+function Smartphone:getEmptySlotForSwiping(direction)
+  local emptySlot = nil
+
+  for slot in self.slots:values() do
+    if slot.card then
+      return emptySlot
+    else
+      emptySlot = slot
+    end
+  end
+end
+
+function Smartphone:swipeAnimation(direction)
+  local slot = self:getEmptySlotForSwiping(direction)
+  local animation = slot and self:recursiveGotoAnimation(slot, direction)
+
+  if animation then
+    animation.onComplete:listenOnce(
+      function ()
+        self:updateSlotsAfterSwiping(slot, direction)
+      end
+    )
+  end
+
+  return animation or Animation.Nop()
+end
+
 function Smartphone:initCards()
   local elements = {
     Constant.Element.Plant,
@@ -191,13 +218,13 @@ function Smartphone:getSwipeDirection(card)
   end
 end
 
-function Smartphone:swipeAnimation(slot, direction)
+function Smartphone:recursiveGotoAnimation(slot, direction)
   local nextSlot = self.slots:get(direction == Constant.Smartphone.Direction.Left and slot.index + 1 or slot.index - 1)
   local nextCard = nextSlot and nextSlot.card
 
   local animation = nextCard and Animation.Parallel({
     nextCard:gotoSlotAnimation(slot),
-    self:swipeAnimation(nextCard.slot, direction)
+    self:recursiveGotoAnimation(nextCard.slot, direction)
   })
 
   return animation or Animation.Nop()
@@ -224,7 +251,7 @@ function Smartphone:replaceActiveCardAnimation()
   local direction = activeCard and self:getSwipeDirection(activeCard)
   local animation = Animation.Parallel({
     activeCard.symbol:fadeOutAnimation(),
-    direction and self:swipeAnimation(activeCard.slot, direction) or Animation.Nop()
+    direction and self:recursiveGotoAnimation(activeCard.slot, direction) or Animation.Nop()
   })
 
   if direction then

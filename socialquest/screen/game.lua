@@ -72,10 +72,27 @@ function GameScreen:pressButton()
   end
 end
 
+function GameScreen:swipeRight()
+  if not self.animation then
+    self.animation = self.smartphone:swipeAnimation(Constant.Smartphone.Direction.Left)
+
+    self.animation.onComplete:listenOnce(
+      function ()
+        self.animation = nil
+      end
+    )
+
+    self.animation:start()
+  end
+end
+
 function GameScreen:update(dt)
   if input:pressed("action") then
     self:pressButton()
+  elseif input:pressed("right") then
+    self:swipeRight()
   end
+
 
   if self.animation then
     self.animation:update(dt)
