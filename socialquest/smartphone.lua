@@ -40,50 +40,65 @@ function Smartphone:initPhonePositions()
   }
 end
 
-function Smartphone:initSlotsPositions()
-  self.slots = List({
-    {
-      index = 1,
-      position = {
-        x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * bank.card.kiki:getWidth(),
-        y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
-      }
-    },
-    {
-      index = 2,
-      position = {
-        x = self.position.x - Constant.Smartphone.ToCardSpace - bank.card.kiki:getWidth(),
-        y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
-      }
-    },
-    {
-      index = 3,
-      active = true,
-      position = {
-        x = self.backgroundPosition.x,
-        y = self.backgroundPosition.y,
-      }
-    },
-    {
-      index = 4,
-      position = {
-        x = self.position.x + Constant.Smartphone.ToCardSpace + bank.card.kiki:getWidth(),
-        y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
-      }
-    },
-    {
-      index = 5,
-      position = {
-        x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * bank.card.kiki:getWidth(),
-        y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
-      }
+function Smartphone:computeAciveSlotIndex(count)
+  return math.ceil(count / 2)
+end
+
+function Smartphone:computeSlotPosition(index, activeSlotIndex)
+  if index <= activeSlotIndex - 3 then
+    return {
+      x = -bank.card.kiki:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
     }
-  })
+  elseif index == activeSlotIndex - 2 then
+    return {
+      x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * bank.card.kiki:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+    }
+  elseif index == activeSlotIndex - 1 then
+    return {
+      x = self.position.x - Constant.Smartphone.ToCardSpace - bank.card.kiki:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+    }
+  elseif index == activeSlotIndex then
+    return {
+      x = self.backgroundPosition.x,
+      y = self.backgroundPosition.y,
+    }
+  elseif index == activeSlotIndex + 1 then
+    return {
+      x = self.position.x + Constant.Smartphone.ToCardSpace + bank.card.kiki:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+    }
+  elseif index == activeSlotIndex + 2 then
+    return {
+      x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * bank.card.kiki:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+    }
+  elseif index >= activeSlotIndex + 3 then
+    return {
+      x = conf.exports.width,
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+    }
+  end
+end
+
+function Smartphone:initSlots(count)
+  local activeSlotIndex = self:computeAciveSlotIndex(count)
+
+  self.slots = List.range(1, count):map(
+    function (index)
+      return {
+        active = index == activeSlotIndex,
+        index = index,
+        position = self:computeSlotPosition(index, activeSlotIndex)
+      }
+    end
+  ):list()
 end
 
 function Smartphone:initPositions()
   self:initPhonePositions()
-  self:initSlotsPositions()
   self:initPatchesPositions()
 end
 
@@ -105,12 +120,21 @@ end
 
 function Smartphone:initCards()
   local elements = {
+    Constant.Element.Plant,
     Constant.Element.Fire,
     Constant.Element.Water,
     Constant.Element.Electricity,
     Constant.Element.Wind,
-    Constant.Element.Plant
+    Constant.Element.Plant,
+    Constant.Element.Electricity,
+    Constant.Element.Water,
+    Constant.Element.Electricity,
+    Constant.Element.Wind,
+    Constant.Element.Plant,
+    Constant.Element.Electricity,
   }
+
+  self:initSlots(table.getn(elements))
 
   for slot in self.slots:values() do
     slot.card = Card("kiki", elements[1], slot, self)

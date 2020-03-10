@@ -38,6 +38,14 @@ function List:add(item)
   return self
 end
 
+function List:pop()
+  return self:size() >= 1 and table.remove(self.tbl, self:size()) or nil
+end
+
+function List:last()
+  return self:get(self:size())
+end
+
 function List:get(index)
   return self.tbl[index]
 end
