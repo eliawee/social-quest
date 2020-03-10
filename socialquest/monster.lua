@@ -4,6 +4,7 @@ local Object = require("classic")
 
 local bank = require("socialquest.bank")
 local Constant = require("socialquest.constant")
+local LifeBar = require("socialquest.lifebar")
 
 local Monster = Object:extend()
 
@@ -27,6 +28,11 @@ function Monster:new(props)
     x = Constant.Monster.Left,
     y = Constant.GroundTop - self.sprites.idle:getHeight()
   }
+
+  self.lifeBar = LifeBar(props.Life, {
+    x = self.position.x + props.ToLeftEdgeSpace,
+    y = Constant.LifeBar.PositionY
+  })
 end
 
 function Monster:hitAnimation()
@@ -45,12 +51,14 @@ end
 
 function Monster:update(dt)
   self.sprite:update(dt)
+  self.lifeBar:update(dt)
 end
 
 function Monster:draw()
   love.graphics.setColor(self.meta.drawColor[1], self.meta.drawColor[2], self.meta.drawColor[3], self.meta.opacity)
   self.sprite:draw(self.position.x, self.position.y)
   love.graphics.setColor(1, 1, 1, 1)
+  self.lifeBar:draw()
 end
 
 return Monster

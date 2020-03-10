@@ -15,7 +15,7 @@ local GameScreen = Navigator.Screen:extend()
 function GameScreen:open()
   self.character = Character()
   self.finger = Finger()
-  self.monster = Monster(Constant.Monster.ZombieChicken)
+  self.monster = Monster(Constant.Monster.Catato)
   self.smartphone = Smartphone()
 end
 

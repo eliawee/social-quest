@@ -3,6 +3,8 @@ local Animation = require("animation")
 local Object = require("classic")
 
 local bank = require("socialquest.bank")
+local Constant = require("socialquest.constant")
+local LifeBar = require("socialquest.lifebar")
 
 local Character = Object:extend()
 
@@ -11,6 +13,11 @@ function Character:new()
     idle = peachy.new(bank.character.spec, bank.character.image, "idle"),
     attack = peachy.new(bank.character.spec, bank.character.image, "attack"),
   }
+
+  self.lifeBar = LifeBar(Constant.Character.Life, {
+    x = Constant.Character.PositionX + self.sprites.idle:getWidth() - bank.lifebar:getWidth() - Constant.Character.ToRightEdgeSpace,
+    y = Constant.LifeBar.PositionY
+  })
 
   self.sprites.attack:onLoop(
     function ()
@@ -36,10 +43,12 @@ end
 
 function Character:update(dt)
   self.sprite:update(dt)
+  self.lifeBar:update(dt)
 end
 
 function Character:draw()
-  self.sprite:draw(60, 20)
+  self.sprite:draw(Constant.Character.PositionX, Constant.Character.PositionY)
+  self.lifeBar:draw()
 end
 
 return Character

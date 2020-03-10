@@ -1,6 +1,16 @@
 return {
   GroundTop = 50,
   GroundHeight = 3,
+  Character = {
+    Life = 100,
+    PositionX = 60,
+    PositionY = 20,
+    ToRightEdgeSpace = 4
+  },
+  LifeBar = {
+    BorderSize = 1,
+    PositionY = 18
+  },
   Element = {
     Fire = 1,
     Water = 2,
@@ -36,8 +46,15 @@ return {
   Monster = {
     Left = 100,
 
+    Catato = {
+      name = "catato",
+      Life = 100,
+      ToLeftEdgeSpace = 5
+    },
     ZombieChicken = {
-      name = "zombieChicken"
+      name = "zombieChicken",
+      Life = 100,
+      ToLeftEdgeSpace = 5
     }
   }
 }

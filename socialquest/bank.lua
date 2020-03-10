@@ -17,6 +17,7 @@ return Bank({
     image = Bank.Asset.Image("assets/sprites/character/character.png"),
     spec = Bank.Asset.JSON("assets/sprites/character/character.json"),
   },
+  lifebar = Bank.Asset.Image("assets/images/life_bar.png"),
   smartphone = {
     background = Bank.Asset.Image("assets/images/smartphone_bg.png"),
     image = Bank.Asset.Image("assets/images/smartphone.png"),
@@ -32,6 +33,10 @@ return Bank({
     zombieChicken = {
       image = Bank.Asset.Image("assets/sprites/zombie-chicken/zombie-chicken.png"),
       spec = Bank.Asset.JSON("assets/sprites/zombie-chicken/zombie-chicken.json"),
+    },
+    catato = {
+      image = Bank.Asset.Image("assets/sprites/catato/catato.png"),
+      spec = Bank.Asset.JSON("assets/sprites/catato/catato.json"),
     }
   }
 })
