@@ -49,7 +49,7 @@ function GameScreen:invokeCardAnimation(card)
         }),
         Animation.Series({
           self.smartphone:replaceActiveCardAnimation(),
-          self.smartphone.button:fadeInAnimation(),
+          self.smartphone:cardsCount() > 1 and self.smartphone.button:fadeInAnimation() or Animation.Nop(),
         })
       })
     }),
@@ -61,6 +61,13 @@ function GameScreen:pressButton()
 
   if activeCard and not self.animation then
     self.animation = self:invokeCardAnimation(activeCard)
+
+    self.animation.onComplete:listenOnce(
+      function ()
+        self.animation = nil
+      end
+    )
+
     self.animation:start()
   end
 end

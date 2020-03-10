@@ -19,6 +19,11 @@ function Card:new(name, element, slot, smartphone)
   self.symbol = Symbol(element, self, smartphone)
 end
 
+function Card:setSlot(slot)
+  self.slot = slot
+  self.position = self:cloneSlotPosition(slot)
+end
+
 function Card:cloneSlotPosition(slot)
   return {
     x = slot.position.x,

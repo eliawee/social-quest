@@ -129,6 +129,14 @@ function Smartphone:activeCard()
   return activeSlot and activeSlot.card
 end
 
+function Smartphone:cardsCount()
+  local sum = function (acc, slot)
+    return slot.card and acc + 1 or acc
+  end
+
+  return self.slots:reduce(sum, 0)
+end
+
 function Smartphone:update(dt)
   for slot in self.slots:values() do
     if slot.card then
@@ -155,20 +163,47 @@ function Smartphone:swipeAnimation(slot, direction)
   local nextSlot = self.slots:get(direction == Constant.Smartphone.Direction.Left and slot.index + 1 or slot.index - 1)
   local nextCard = nextSlot and nextSlot.card
 
-  return nextCard and Animation.Parallel({
+  local animation = nextCard and Animation.Parallel({
     nextCard:gotoSlotAnimation(slot),
     self:swipeAnimation(nextCard.slot, direction)
-  }) or Animation.Wait(0)
+  })
+
+  return animation or Animation.Nop()
+end
+
+function Smartphone:updateSlotsAfterSwiping(slot, direction)
+  local nextSlot = self.slots:get(direction == Constant.Smartphone.Direction.Left and slot.index + 1 or slot.index - 1)
+  local nextCard = nextSlot and nextSlot.card
+
+  slot.card = nil
+
+  if nextCard then
+    local previousSlot = nextCard.slot
+
+    previousSlot.card = nil
+    slot.card = nextCard
+    nextCard:setSlot(slot)
+    self:updateSlotsAfterSwiping(previousSlot, direction)
+  end
 end
 
 function Smartphone:replaceActiveCardAnimation()
   local activeCard = self:activeCard()
   local direction = activeCard and self:getSwipeDirection(activeCard)
-
-  return Animation.Parallel({
+  local animation = Animation.Parallel({
     activeCard.symbol:fadeOutAnimation(),
-    direction and self:swipeAnimation(activeCard.slot, direction) or Animation.Wait(0)
+    direction and self:swipeAnimation(activeCard.slot, direction) or Animation.Nop()
   })
+
+  if direction then
+    animation.onComplete:listenOnce(
+      function ()
+        self:updateSlotsAfterSwiping(activeCard.slot, direction)
+      end
+    )
+  end
+
+  return animation
 end
 
 function Smartphone:draw()

@@ -58,6 +58,10 @@ function List:filter(predicate)
   return List.Iterator(fun.iter(self.tbl)):filter(predicate)
 end
 
+function List:reduce(predicate, initial)
+  return fun.iter(self.tbl):reduce(predicate, initial)
+end
+
 List.Iterator = Object:extend()
 
 function List.Iterator:new(generator)

@@ -46,6 +46,8 @@ function Animation:isRunning()
   return self.running
 end
 
+Animation.Nop = Animation:extend()
+
 Animation.Sprite = Animation:extend()
 
 function Animation.Sprite:new(sprite)
