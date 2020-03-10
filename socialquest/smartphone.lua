@@ -13,7 +13,7 @@ local Smartphone = Object:extend()
 function Smartphone:new()
   self:initPositions()
   self:initCards()
-  self.button = Button("follow", self)
+  self.button = Button("invoke", self)
 end
 
 function Smartphone:getSlot(index)

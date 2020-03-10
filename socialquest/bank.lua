@@ -7,6 +7,10 @@ return Bank({
     follow = {
       image = Bank.Asset.Image("assets/sprites/follow_btn/follow_btn.png"),
       spec = Bank.Asset.JSON("assets/sprites/follow_btn/follow_btn.json"),  
+    },
+    invoke = {
+      image = Bank.Asset.Image("assets/sprites/invoke_btn/invoke_btn.png"),
+      spec = Bank.Asset.JSON("assets/sprites/invoke_btn/invoke_btn.json"),  
     }
   },
   character = {
