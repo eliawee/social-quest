@@ -64,7 +64,7 @@ function GameScreen:invokeCardAnimation(card)
           self.tinyCard:scaleFadeOutAnimation(),
           Animation.Series({
             Animation.Wait(0.5),
-            self.monster:hitAnimation(40)
+            self.monster:computedHitAnimation(card.element)
           })
         }),
         self.smartphone:replaceActiveCardAnimation(),

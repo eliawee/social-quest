@@ -44,6 +44,7 @@ function Monster:new(props)
     y = - self.sprites.idle:getHeight()
   }
 
+  self.maxLife = props.Life
   self.lifeBar = LifeBar(props.Life, {
     x = self.position.x + props.ToLeftEdgeSpace,
     y = Constant.LifeBar.PositionY
@@ -56,6 +57,15 @@ function Monster:new(props)
 
   self.lifeBar:hide()
   self.shieldBar:hide()
+end
+
+function Monster:computedHitAnimation(element)
+  local isBreakingShield = self.shieldBar:isBreakingActiveShield(element)
+
+  return self.shieldBar:hasShield() and Animation.Parallel({
+    isBreakingShield and  self.shieldBar:breakShieldAnimation(element) or Animation.Nop(),
+    isBreakingShield and self:hitAnimation(self.maxLife / 6) or Animation.Nop()
+  }) or self:hitAnimation(self.maxLife)
 end
 
 function Monster:fallOnGroundAnimation()
