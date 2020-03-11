@@ -6,9 +6,9 @@ local Symbol = require("socialquest.symbol")
 
 local Card = Object:extend()
 
-function Card:new(name, element, slot, smartphone)
-  self.name = name
-  self.element = element
+function Card:new(props, slot, smartphone)
+  self.name = props.Name
+  self.element = props.Element
   self.slot = slot
   self.position = self:cloneSlotPosition(slot)
 
@@ -16,7 +16,7 @@ function Card:new(name, element, slot, smartphone)
     opacity = 1
   }
 
-  self.symbol = Symbol(element, self, smartphone)
+  self.symbol = Symbol(self.element, self, smartphone)
 end
 
 function Card:setSlot(slot)

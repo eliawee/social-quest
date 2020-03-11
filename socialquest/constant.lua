@@ -1,3 +1,11 @@
+local Element = {
+  Fire = 1,
+  Water = 2,
+  Electricity = 3,
+  Ground = 4,
+  Plant = 5
+}
+
 return {
   GroundTop = 50,
   GroundHeight = 3,
@@ -11,13 +19,7 @@ return {
     BorderSize = 1,
     PositionY = 18
   },
-  Element = {
-    Fire = 1,
-    Water = 2,
-    Electricity = 3,
-    Ground = 4,
-    Plant = 5
-  },
+  Element = Element,
   Finger = {
     ButtonBottom = 20,
     ToCenterSpace = 5
@@ -37,6 +39,27 @@ return {
     ToLineSpace = 8,
     ToElementSpace = 6,
     ToCardSpace = 6,
+
+    Bill = {
+      Element = Element.Electricity,
+      Name = "bill",
+    },
+    Croak = {
+      Element = Element.Plant,
+      Name = "croak",
+    },
+    Floof = {
+      Element = Element.Fire,
+      Name = "floof",
+    },
+    Gudboy = {
+      Element = Element.Ground,
+      Name = "gudboy",
+    },
+    Jlo = {
+      Element = Element.Water,
+      Name = "jlo",
+    },
   },
   TinyCard = {
     Scale = 1 / 2,
@@ -47,12 +70,12 @@ return {
     Left = 100,
 
     Catato = {
-      name = "catato",
+      Name = "catato",
       Life = 100,
-      ToLeftEdgeSpace = 5
+      ToLeftEdgeSpace = 5,
     },
     ZombieChicken = {
-      name = "zombieChicken",
+      Name = "zombieChicken",
       Life = 100,
       ToLeftEdgeSpace = 2
     }

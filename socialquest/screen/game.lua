@@ -3,6 +3,7 @@ local Navigator = require("navigator")
 
 local bank = require("socialquest.bank")
 local input = require("socialquest.input")
+local Card = require("socialquest.card")
 local Character = require("socialquest.character")
 local Constant = require("socialquest.constant")
 local Finger = require("socialquest.finger")
@@ -16,7 +17,13 @@ function GameScreen:open()
   self.character = Character()
   self.finger = Finger()
   self.monster = Monster(Constant.Monster.Catato)
-  self.smartphone = Smartphone()
+  self.smartphone = Smartphone({
+    Constant.Card.Floof,
+    Constant.Card.Jlo,
+    Constant.Card.Gudboy,
+    Constant.Card.Bill,
+    Constant.Card.Croak,
+  })
   self.animation = self.monster:fallOnGroundAnimation()
   self.animation:start()
 
@@ -33,7 +40,7 @@ function GameScreen:onMonsterDies()
 end
 
 function GameScreen:invokeCardAnimation(card)
-  self.tinyCard = TinyCard(card.name)
+  self.tinyCard = TinyCard(card)
 
   return Animation.Series({
     self.finger:moveToButtonAnimation(),

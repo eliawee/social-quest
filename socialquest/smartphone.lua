@@ -4,15 +4,15 @@ local List = require("list")
 local Object = require("classic")
 
 local bank = require("socialquest.bank")
-local Button = require("socialquest.button")
 local Card = require("socialquest.card")
+local Button = require("socialquest.button")
 local Constant = require("socialquest.constant")
 
 local Smartphone = Object:extend()
 
-function Smartphone:new()
+function Smartphone:new(cardsProps)
   self:initPositions()
-  self:initCards()
+  self:initCards(cardsProps)
   self.button = Button("invoke", self)
 end
 
@@ -47,18 +47,18 @@ end
 function Smartphone:computeSlotPosition(index, activeSlotIndex)
   if index <= activeSlotIndex - 3 then
     return {
-      x = -bank.card.kiki:getWidth(),
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      x = -bank.card.gudboy:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   elseif index == activeSlotIndex - 2 then
     return {
-      x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * bank.card.kiki:getWidth(),
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      x = self.position.x - Constant.Smartphone.ToCardSpace - Constant.Card.ToCardSpace - 2 * bank.card.gudboy:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   elseif index == activeSlotIndex - 1 then
     return {
-      x = self.position.x - Constant.Smartphone.ToCardSpace - bank.card.kiki:getWidth(),
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      x = self.position.x - Constant.Smartphone.ToCardSpace - bank.card.gudboy:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   elseif index == activeSlotIndex then
     return {
@@ -67,18 +67,18 @@ function Smartphone:computeSlotPosition(index, activeSlotIndex)
     }
   elseif index == activeSlotIndex + 1 then
     return {
-      x = self.position.x + Constant.Smartphone.ToCardSpace + bank.card.kiki:getWidth(),
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      x = self.position.x + Constant.Smartphone.ToCardSpace + bank.card.gudboy:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   elseif index == activeSlotIndex + 2 then
     return {
-      x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * bank.card.kiki:getWidth(),
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      x = self.position.x + Constant.Smartphone.ToCardSpace + Constant.Card.ToCardSpace + 2 * bank.card.gudboy:getWidth(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   elseif index >= activeSlotIndex + 3 then
     return {
       x = conf.exports.width,
-      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.kiki:getHeight(),
+      y = conf.exports.height - Constant.Card.ScreenBottom - bank.card.gudboy:getHeight(),
     }
   end
 end
@@ -154,27 +154,13 @@ function Smartphone:swipeAnimation(direction)
   return animation or Animation.Nop()
 end
 
-function Smartphone:initCards()
-  local elements = {
-    Constant.Element.Plant,
-    Constant.Element.Fire,
-    Constant.Element.Water,
-    Constant.Element.Electricity,
-    Constant.Element.Ground,
-    Constant.Element.Plant,
-    Constant.Element.Electricity,
-    Constant.Element.Water,
-    Constant.Element.Electricity,
-    Constant.Element.Ground,
-    Constant.Element.Plant,
-    Constant.Element.Electricity,
-  }
+function Smartphone:initCards(cardsProps)
+  self:initSlots(table.getn(cardsProps))
 
-  self:initSlots(table.getn(elements))
+  for index, cardProps in pairs(cardsProps) do
+    local slot = self.slots:get(index + math.floor(table.getn(cardsProps) / 2))
 
-  for index, element in pairs(elements) do
-    local slot = self.slots:get(index + math.floor(table.getn(elements) / 2))
-    slot.card = Card("kiki", element, slot, self)
+    slot.card = Card(cardProps, slot, self)
   end
 end
 

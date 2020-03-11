@@ -23,7 +23,11 @@ return Bank({
     image = Bank.Asset.Image("assets/images/smartphone.png"),
   },
   card = {
-    kiki = Bank.Asset.Image("assets/images/kiki_card.png"),
+    bill = Bank.Asset.Image("assets/images/card_bill.png"),
+    croak = Bank.Asset.Image("assets/images/card_croak.png"),
+    floof = Bank.Asset.Image("assets/images/card_floof.png"),
+    gudboy = Bank.Asset.Image("assets/images/kiki_card.png"),
+    jlo = Bank.Asset.Image("assets/images/card_jlo.png"),
   },
   element = {
     image = Bank.Asset.Image("assets/sprites/elements/elements.png"),

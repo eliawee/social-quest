@@ -10,7 +10,7 @@ local LifeBar = require("socialquest.lifebar")
 local Monster = Object:extend()
 
 function Monster:new(props)
-  self.name = props.name
+  self.name = props.Name
   self.sprites = {
     idle = peachy.new(
       bank.monster[self.name].spec,

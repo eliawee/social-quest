@@ -8,8 +8,8 @@ local Symbol = require("socialquest.symbol")
 
 local TinyCard = Object:extend()
 
-function TinyCard:new(name)
-  self.name = name
+function TinyCard:new(card)
+  self.name = card.name
 
   self.meta = {
     opacity = 0,
