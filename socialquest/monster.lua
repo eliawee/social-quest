@@ -6,6 +6,7 @@ local Object = require("classic")
 local bank = require("socialquest.bank")
 local Constant = require("socialquest.constant")
 local LifeBar = require("socialquest.lifebar")
+local ShieldBar = require("socialquest.shieldbar")
 
 local Monster = Object:extend()
 
@@ -48,20 +49,32 @@ function Monster:new(props)
     y = Constant.LifeBar.PositionY
   })
 
+  self.shieldBar = ShieldBar(props.Shields, {
+    x = self.position.x + props.ToLeftEdgeSpace,
+    y = Constant.ShieldBar.PositionY
+  })
+
   self.lifeBar:hide()
+  self.shieldBar:hide()
 end
 
 function Monster:fallOnGroundAnimation()
   return Animation.Series({
     Animation.Tween(0.3, self.position, {y = Constant.GroundTop - self.sprites.idle:getHeight()}),
     Animation.Wait(0.3),
-    self.lifeBar:fadeInAnimation()
+    Animation.Parallel({
+      self.lifeBar:fadeInAnimation(),
+      self.shieldBar:fadeInAnimation(),
+    })
   })
 end
 
 function Monster:dieAnimation()
   return Animation.Parallel({
-    self.lifeBar:fadeOutAnimation(),
+    Animation.Parallel({
+      self.lifeBar:fadeOutAnimation(),
+      self.shieldBar:fadeOutAnimation(),
+    }),
     Animation.Series({
       Animation.Tween(0.15, self.meta, {opacity = 0}, "inQuint"),
       Animation.Tween(0.15, self.meta, {opacity = 1}, "inQuint"),
@@ -110,6 +123,7 @@ end
 function Monster:update(dt)
   self.sprite:update(dt)
   self.lifeBar:update(dt)
+  self.shieldBar:update(dt)
 end
 
 function Monster:draw()
@@ -117,6 +131,7 @@ function Monster:draw()
   self.sprite:draw(self.position.x, self.position.y)
   love.graphics.setColor(1, 1, 1, 1)
   self.lifeBar:draw()
+  self.shieldBar:draw()
 end
 
 return Monster

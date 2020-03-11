@@ -9,6 +9,10 @@ local Element = {
 return {
   GroundTop = 50,
   GroundHeight = 3,
+  ShieldBar = {
+    PositionY = 23,
+    BetweenShieldSpace = 1
+  },
   Character = {
     Life = 100,
     PositionX = 60,
@@ -73,11 +77,13 @@ return {
       Name = "catato",
       Life = 100,
       ToLeftEdgeSpace = 5,
+      Shields = {Element.Fire, Element.Water}
     },
     ZombieChicken = {
       Name = "zombieChicken",
       Life = 100,
-      ToLeftEdgeSpace = 2
+      ToLeftEdgeSpace = 2,
+      Shields = {Element.Ground, Element.Electricity}
     }
   }
 }

@@ -80,6 +80,10 @@ function List:reduce(predicate, initial)
   return fun.iter(self.tbl):reduce(predicate, initial)
 end
 
+function List:map(predicate)
+  return List.Iterator(fun.iter(self.tbl)):map(predicate)
+end
+
 List.Iterator = Object:extend()
 
 function List.Iterator:new(generator)

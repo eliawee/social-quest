@@ -42,5 +42,10 @@ return Bank({
       image = Bank.Asset.Image("assets/sprites/catato/catato.png"),
       spec = Bank.Asset.JSON("assets/sprites/catato/catato.json"),
     }
+  },
+  shield = Bank.Asset.Image("assets/images/shield.png"),
+  shieldElement = {
+    image = Bank.Asset.Image("assets/sprites/shield_element/shield_element.png"),
+    spec = Bank.Asset.JSON("assets/sprites/shield_element/shield_element.json"),
   }
 })
