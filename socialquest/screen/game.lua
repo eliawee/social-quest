@@ -44,7 +44,7 @@ function GameScreen:invokeCardAnimation(card)
           self.tinyCard:scaleFadeOutAnimation(),
           Animation.Series({
             Animation.Wait(0.5),
-            self.monster:hitAnimation()
+            self.monster:hitAnimation(20)
           })
         }),
         Animation.Series({

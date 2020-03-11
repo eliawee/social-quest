@@ -35,18 +35,22 @@ function Monster:new(props)
   })
 end
 
-function Monster:hitAnimation()
+function Monster:hitAnimation(hit)
   local redDrawColor = {1, 0.6, 0.6}
   local resetColor = {1, 1, 1}
 
-  return Animation.Series({
-    Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
-    Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
-    Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
-    Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
-    Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
-    Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+  return Animation.Parallel({
+    Animation.Series({
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+    }),
+    self.lifeBar:hitAnimation(hit)
   })
+  
 end
 
 function Monster:update(dt)
