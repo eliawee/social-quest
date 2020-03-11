@@ -17,6 +17,19 @@ function GameScreen:open()
   self.finger = Finger()
   self.monster = Monster(Constant.Monster.Catato)
   self.smartphone = Smartphone()
+  self.animation = self.monster:fallOnGroundAnimation()
+  self.animation:start()
+
+  self.animation.onComplete:listenOnce(
+    function ()
+      self.animation = nil
+    end
+  )
+end
+
+function GameScreen:onMonsterDies()
+  self.animation = self.monster:dieAnimation()
+  self.animation:start()
 end
 
 function GameScreen:invokeCardAnimation(card)
@@ -44,16 +57,53 @@ function GameScreen:invokeCardAnimation(card)
           self.tinyCard:scaleFadeOutAnimation(),
           Animation.Series({
             Animation.Wait(0.5),
-            self.monster:hitAnimation(20)
+            self.monster:hitAnimation(40)
           })
         }),
-        Animation.Series({
-          self.smartphone:replaceActiveCardAnimation(),
-          self.smartphone:cardsCount() > 1 and self.smartphone.button:fadeInAnimation() or Animation.Nop(),
-        })
+        self.smartphone:replaceActiveCardAnimation(),
       })
     }),
   })
+end
+
+function GameScreen:monsterFightBackAnimation()
+  return Animation.Series({
+    self.monster:attackAnimation(),
+    self.character:hitAnimation(5),
+    self.smartphone:cardsCount() > 1 and self.smartphone.button:fadeInAnimation() or Animation.Nop()  
+  })
+end
+
+function GameScreen:monsterDieAnimation()
+  self.nextMonster = Monster(Constant.Monster.ZombieChicken)
+
+  local animation = Animation.Series({
+    self.monster:dieAnimation(),
+    Animation.Wait(1),
+    self.nextMonster:fallOnGroundAnimation(),
+    self.smartphone:cardsCount() > 1 and self.smartphone.button:fadeInAnimation() or Animation.Nop()  
+  })
+
+  animation.onComplete:listenOnce(
+    function ()
+      self.monster = self.nextMonster
+      self.nextMonster = nil
+    end
+  )
+
+  return animation
+end
+
+function GameScreen:postAttack()
+  self.animation = self.monster.lifeBar:isDead() and self:monsterDieAnimation() or self:monsterFightBackAnimation()
+
+  self.animation.onComplete:listenOnce(
+    function ()
+      self.animation = nil        
+    end
+  )
+
+  self.animation:start()
 end
 
 function GameScreen:pressButton()
@@ -64,7 +114,7 @@ function GameScreen:pressButton()
 
     self.animation.onComplete:listenOnce(
       function ()
-        self.animation = nil
+        self:postAttack()
       end
     )
 
@@ -107,6 +157,10 @@ function GameScreen:update(dt)
   if self.tinyCard then
     self.tinyCard:update(dt)
   end
+
+  if self.nextMonster then
+    self.nextMonster:update(dt)
+  end
 end
 
 function GameScreen:draw()
@@ -118,6 +172,10 @@ function GameScreen:draw()
 
   if self.tinyCard then
     self.tinyCard:draw()
+  end
+
+  if self.nextMonster then
+    self.nextMonster:draw()
   end
 end
 

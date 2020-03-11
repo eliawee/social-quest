@@ -41,6 +41,10 @@ function Character:pushButtonAnimation()
   return animation
 end
 
+function Character:hitAnimation(hit)
+  return self.lifeBar:hitAnimation(hit)
+end
+
 function Character:update(dt)
   self.sprite:update(dt)
   self.lifeBar:update(dt)

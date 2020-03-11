@@ -54,7 +54,7 @@ return {
     ZombieChicken = {
       name = "zombieChicken",
       Life = 100,
-      ToLeftEdgeSpace = 5
+      ToLeftEdgeSpace = 2
     }
   }
 }
