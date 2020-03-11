@@ -69,8 +69,8 @@ function Symbol:getFramesTag()
     return "water"
   elseif self.element == Constant.Element.Electricity then
     return "thunder"
-  elseif self.element == Constant.Element.Wind then
-    return "wind"
+  elseif self.element == Constant.Element.Ground then
+    return "ground"
   elseif self.element == Constant.Element.Plant then
     return "plant"
   end

@@ -15,7 +15,7 @@ return {
     Fire = 1,
     Water = 2,
     Electricity = 3,
-    Wind = 4,
+    Ground = 4,
     Plant = 5
   },
   Finger = {
