@@ -9,6 +9,11 @@ local LifeBar = require("socialquest.lifebar")
 local Character = Object:extend()
 
 function Character:new()
+  self.meta = {
+    drawColor = {1, 1, 1},
+    opacity = 1
+  }
+
   self.sprites = {
     idle = peachy.new(bank.character.spec, bank.character.image, "idle"),
     attack = peachy.new(bank.character.spec, bank.character.image, "attack"),
@@ -42,7 +47,20 @@ function Character:pushButtonAnimation()
 end
 
 function Character:hitAnimation(hit)
-  return self.lifeBar:hitAnimation(hit)
+  local redDrawColor = {1, 0, 0}
+  local resetColor = {1, 1, 1}
+
+  return Animation.Parallel({
+    Animation.Series({
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = redDrawColor}, "inQuint"),
+      Animation.Tween(0.05, self.meta, {drawColor = resetColor}, "inQuint"),
+    }),
+    self.lifeBar:hitAnimation(hit)
+  })
 end
 
 function Character:update(dt)
@@ -51,7 +69,9 @@ function Character:update(dt)
 end
 
 function Character:draw()
+  love.graphics.setColor(self.meta.drawColor[1], self.meta.drawColor[2], self.meta.drawColor[3], self.meta.opacity)
   self.sprite:draw(Constant.Character.PositionX, Constant.Character.PositionY)
+  love.graphics.setColor(1, 1, 1, 1)
   self.lifeBar:draw()
 end
 

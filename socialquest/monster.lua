@@ -105,7 +105,6 @@ function Monster:hitAnimation(hit)
     }),
     self.lifeBar:hitAnimation(hit)
   })
-  
 end
 
 function Monster:update(dt)
